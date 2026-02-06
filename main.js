@@ -1,7 +1,11 @@
 const numbersContainer = document.querySelector('.numbers-container');
-const generateBtn = document.querySelector('.generate-btn');
+const generateBtn = document.querySelector('.generate-lotto-btn');
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+const form = document.querySelector('.form-container form');
 
-generateBtn.addEventListener('click', () => {
+// Function to generate lotto numbers
+function generateLottoNumbers() {
     numbersContainer.innerHTML = '';
     const lottoNumbers = new Set();
 
@@ -32,10 +36,7 @@ generateBtn.addEventListener('click', () => {
 
         numbersContainer.appendChild(numberDiv);
     });
-});
-
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
+}
 
 // Function to set the theme
 function setTheme(theme) {
@@ -48,21 +49,38 @@ function setTheme(theme) {
     }
 }
 
-// Check for saved theme preference or system preference
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-    setTheme(savedTheme);
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    setTheme('dark');
-} else {
-    setTheme('light');
+// Function to initialize the theme
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        setTheme(savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme('dark');
+    } else {
+        setTheme('light');
+    }
 }
 
-// Event listener for theme toggle button
-themeToggle.addEventListener('click', () => {
+// Function to toggle the theme
+function toggleTheme() {
     if (body.classList.contains('dark-mode')) {
         setTheme('light');
     } else {
         setTheme('dark');
     }
-});
+}
+
+// Check formspree URL
+function checkFormspreeUrl() {
+    if (form.action.includes('your_form_id')) {
+        console.warn('Warning: Please replace "your_form_id" with your actual Formspree form ID in index.html.');
+    }
+}
+
+// Event Listeners
+generateBtn.addEventListener('click', generateLottoNumbers);
+themeToggle.addEventListener('click', toggleTheme);
+
+// Initial setup
+initializeTheme();
+checkFormspreeUrl();
