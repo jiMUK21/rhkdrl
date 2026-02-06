@@ -33,3 +33,36 @@ generateBtn.addEventListener('click', () => {
         numbersContainer.appendChild(numberDiv);
     });
 });
+
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Function to set the theme
+function setTheme(theme) {
+    if (theme === 'dark') {
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+// Check for saved theme preference or system preference
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    setTheme(savedTheme);
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    setTheme('dark');
+} else {
+    setTheme('light');
+}
+
+// Event listener for theme toggle button
+themeToggle.addEventListener('click', () => {
+    if (body.classList.contains('dark-mode')) {
+        setTheme('light');
+    } else {
+        setTheme('dark');
+    }
+});
